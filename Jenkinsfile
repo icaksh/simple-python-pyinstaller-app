@@ -1,7 +1,8 @@
 node {
     withEnv(['VOLUME=$(pwd)/sources:/sources']) {
         stage('Build') {
-            withDockerContainer(args: '-v {VOLUME}',image: 'python:2-alpine'){
+            withDockerContainer(args: '-v ${VOLUME}',image: 'python:2-alpine'){
+                sh 'ls'
                 sh 'python -m py_compile /sources/add2vals.py /sources/calc.py' 
                 stash(name: 'compiled-results', includes: 'sources/*.py*')
             }
