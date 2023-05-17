@@ -1,6 +1,7 @@
 node {
     stage('Build') {
         withDockerContainer(args: '-v /home/icaksh/Dicoding/simple-python-pyinstaller-app/sources:/sources',image: 'python:2-alpine'){
+            sh 'ls'
             sh 'python -m py_compile /sources/add2vals.py /sources/calc.py' 
             stash(name: 'compiled-results', includes: 'sources/*.py*')
         }
