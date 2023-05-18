@@ -29,8 +29,7 @@ node {
         } catch (e) {
             throw e
         } finally {
-            sh 'DIR=$(tree)'
-            sh 'echo $DIR'
+            sh 'tree'
             checkout scm
             archiveArtifacts 'dist/add2vals'
             sleep 60
