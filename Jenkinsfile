@@ -47,6 +47,8 @@ node {
             checkout scm
             sshagent (credentials: ['icaksh']) {
                 try{
+                    git('git config --global user.email "me@icaksh.my.id"')
+                    git('git config --global user.name "icaksh"')
                     sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
                 }
                 catch(e){
@@ -54,8 +56,6 @@ node {
                     sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
                 }finally{
                     sh('git add .')
-                    git('git config --global user.email "me@icaksh.my.id"')
-                    git('git config --glocal user.name "icaksh"')
                     sh('git commit -m "Rebuild Heroku"')
                     sh('git push jenkins master')
                 }
