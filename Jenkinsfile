@@ -24,7 +24,7 @@ node {
         try{
             withDockerContainer(image: 'cdrx/pyinstaller-linux:python2'){
                 checkout scm
-                sh -xe 'pyinstaller --onefile sources/add2vals.py'
+                sh 'pyinstaller --onefile sources/add2vals.py'
                 sh 'DIR=$(tree)'
                 sh 'echo $DIR'
             }
