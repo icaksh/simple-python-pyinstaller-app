@@ -42,11 +42,10 @@ node {
             withCredentials([string(credentialsId: 'GITHUB_HOST_KEY', variable: 'GITHUB_HOST_KEY')]) {
                 sh 'mkdir -p ~/.ssh && echo "$GITHUB_HOST_KEY" >> ~/.ssh/known_hosts'
             }
-            checkout([$class: 'GitSCM',branches: [[name: '*/master']],userRemoteConfigs: [[credentialsId:  'icaksh',url: 'git@github.com:icaksh/simple-python-pyinstaller-app.git']]])
             sshagent (credentials: ['icaksh']) {
                 sh('git config --global user.email "me@icaksh.my.id"')
                 sh('git config --global user.name "icaksh"')
-                sh('git fetch --all')
+                sh('git push origin git@github.com:icaksh/simple-python-pyinstaller-app.git --tags -f --no-verify')
             }
         }
     }
