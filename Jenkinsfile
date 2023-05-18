@@ -43,7 +43,7 @@ node {
             withCredentials([string(credentialsId: 'GITHUB_HOST_KEY', variable: 'GITHUB_HOST_KEY')]) {
                 sh 'mkdir -p ~/.ssh && echo "$GITHUB_HOST_KEY" >> ~/.ssh/known_hosts'
             }
-            checkout([$class: 'GitSCM',branches: [[name: '*/master']],userRemoteConfigs: [[credentialsId:  'icaksh',url: 'ssh://github.com/jenkinsci/git-plugin.git']]])
+            checkout([$class: 'GitSCM',branches: [[name: '*/master']],userRemoteConfigs: [[credentialsId:  'icaksh',url: 'ssh://github.com/icaksh/simple-python-pyinstaller-app.git']]])
         }
     }
 }
