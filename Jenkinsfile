@@ -54,8 +54,8 @@ node {
                     sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
                 }finally{
                     sh('git add .')
-                    git('git config --global user.email "jenkins@icaksh.my.id"')
-                    git('git config --glocal user.name "Jenkins Icaksh"')
+                    git('git config --global user.email "me@icaksh.my.id"')
+                    git('git config --glocal user.name "icaksh"')
                     sh('git commit -m "Rebuild Heroku"')
                     sh('git push jenkins master')
                 }
