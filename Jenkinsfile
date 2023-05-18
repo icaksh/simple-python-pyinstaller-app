@@ -29,12 +29,12 @@ node {
                 sh 'pyinstaller --onefile sources/add2vals.py'
                 sh 'DIR=$(tree .)'
                 sh 'echo $DIR'
-                archiveArtifacts 'dist/add2vals'
             }
         }
     } catch (e) {
         throw e
     } finally {
+        archiveArtifacts 'dist/add2vals'
         sleep 60
     }
 
