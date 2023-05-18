@@ -7,32 +7,32 @@ node {
         }
     }
     stage('Test') {
-        try{
-            withDockerContainer(image: 'qnib/pytest'){
+        withDockerContainer(image: 'qnib/pytest'){
+            try{
                 checkout scm
                 sh 'py.test --junit-xml test-reports/results.xml sources/test_calc.py'
+            } catch (e) {
+                throw e
+            } finally {
+                checkout scm
+                junit 'test-reports/results.xml'
             }
-        } catch (e) {
-            throw e
-        } finally {
-            checkout scm
-            junit 'test-reports/results.xml'
         }
     }
 
     stage('Deploy') {
-        try{
-            withDockerContainer(image: 'cdrx/pyinstaller-linux:python2'){
-                checkout scm
-                sh 'pyinstaller --onefile sources/add2vals.py'
-            }
-        } catch (e) {
-            throw e
-        } finally {
-            sh 'cd dist'
+        withDockerContainer(image: 'cdrx/pyinstaller-linux:python2'){
+            try{
             checkout scm
-            archiveArtifacts 'dist/add2vals'
-            sleep 60
+            sh 'pyinstaller --onefile sources/add2vals.py'
+            } catch (e) {
+                throw e
+            } finally {
+                sh 'cd dist'
+                checkout scm
+                archiveArtifacts 'dist/add2vals'
+                sleep 60
+            }    
         }
     }
 }
