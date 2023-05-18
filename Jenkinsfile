@@ -6,35 +6,32 @@ node {
             stash(name: 'compiled-results', includes: 'sources/*.py*')
         }
     }
-
-    try{
-        stage('Test') {
+    stage('Test') {
+        try{
             withDockerContainer(image: 'qnib/pytest'){
                 checkout scm
                 sh 'py.test --junit-xml test-reports/results.xml sources/test_calc.py'
             }
+        } catch (e) {
+            throw e
+        } finally {
+            checkout scm
+            junit 'test-reports/results.xml'
         }
-    } catch (e) {
-        throw e
-    } finally {
-        checkout scm
-        junit 'test-reports/results.xml'
     }
 
-    
-
-    try{
-        stage('Deploy') {
+    stage('Deploy') {
+        try{
             withDockerContainer(image: 'cdrx/pyinstaller-linux:python2'){
                 checkout scm
                 sh 'pyinstaller --onefile sources/add2vals.py'
             }
+        } catch (e) {
+            throw e
+        } finally {
+            checkout scm
+            archiveArtifacts 'dist/add2vals'
+            sleep 60
         }
-    } catch (e) {
-        throw e
-    } finally {
-        checkout scm
-        archiveArtifacts 'dist/add2vals'
-        sleep 60
     }
 }
