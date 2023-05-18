@@ -43,21 +43,11 @@ node {
             withCredentials([string(credentialsId: 'GITHUB_HOST_KEY', variable: 'GITHUB_HOST_KEY')]) {
                 sh 'mkdir -p ~/.ssh && echo "$GITHUB_HOST_KEY" >> ~/.ssh/known_hosts'
             }
-            checkout([$class: 'GitSCM',branches: [[name: '*/master']],userRemoteConfigs: [[credentialsId:  'icaksh',url: 'git@github.com:icaksh/simple-python-pyinstaller-app.git']]])
+            merge([$class: 'GitSCM',branches: [[name: '*/master']],userRemoteConfigs: [[credentialsId:  'icaksh',url: 'git@github.com:icaksh/simple-python-pyinstaller-app.git']]])
             sshagent (credentials: ['icaksh']) {
-                try{
-                    sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
-                }
-                catch(e){
-                    sh('git remote remove jenkins')
-                    sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
-                }finally{
-                    sh('git config --global user.email "me@icaksh.my.id"')
-                    sh('git config --global user.name "icaksh"')
-                    sh('git add .')
-                    sh('git commit -m "Rebuild Heroku"')
-                    sh('git push jenkins master')
-                }
+                sh('git config --global user.email "me@icaksh.my.id"')
+                sh('git config --global user.name "icaksh"')
+                sh('git push git@github.com:icaksh/simple-python-pyinstaller-app.git --tags -f --no-verify')
             }
         }
     }
