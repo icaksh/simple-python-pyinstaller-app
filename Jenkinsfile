@@ -23,12 +23,11 @@ node {
     stage('Deploy') {
         withDockerContainer(image: 'cdrx/pyinstaller-linux:python2'){
             try{
-            checkout scm
-            sh 'pyinstaller --onefile sources/add2vals.py'
+                checkout scm
+                sh 'pyinstaller --onefile sources/add2vals.py'
             } catch (e) {
                 throw e
             } finally {
-                sh 'cd dist'
                 checkout scm
                 archiveArtifacts 'dist/add2vals'
                 sleep 60
