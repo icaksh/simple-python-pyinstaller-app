@@ -25,12 +25,12 @@ node {
             withDockerContainer(image: 'cdrx/pyinstaller-linux:python2'){
                 checkout scm
                 sh 'pyinstaller --onefile sources/add2vals.py'
-                sh 'DIR=$(tree)'
-                sh 'echo $DIR'
             }
         } catch (e) {
             throw e
         } finally {
+            sh 'DIR=$(tree)'
+            sh 'echo $DIR'
             checkout scm
             archiveArtifacts 'dist/add2vals'
             sleep 60
