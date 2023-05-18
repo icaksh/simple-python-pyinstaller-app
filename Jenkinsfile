@@ -40,7 +40,7 @@ node {
             throw e
         }finally{
             sh('git checkout master')
-            withCredentials([string(credentialsId: 'GITHUB-HOST-KEY', variable: 'GITHUB_HOST_KEY')]) {
+            withCredentials([string(credentialsId: 'GITHUB_HOST_KEY', variable: 'GITHUB_HOST_KEY')]) {
                 sh 'mkdir -p ~/.ssh && echo "$GITHUB-HOST-KEY" >> ~/.ssh/known_hosts'
             }
             sshagent (credentials: ['icaksh']) {
