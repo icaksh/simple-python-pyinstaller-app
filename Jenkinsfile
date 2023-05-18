@@ -23,17 +23,26 @@ node {
         input message: 'Lanjutkan ke tahap Deploy? (Klik Proceed untuk melanjutkan eksekusi pipeline ke tahap Deploy atau Abort untuk menghentikan eksekusi pipeline)'
     }
     stage('Deploy') {
-        withDockerContainer(args: "--entrypoint=''", image: 'six8/pyinstaller-alpine-linux-amd64:alpine-3.12-python-2.7-pyinstaller-v3.4'){
-            try{
-                checkout scm
-                sh 'pyinstaller --onefile sources/add2vals.py'
-            } catch (e) {
-                throw e
-            } finally {
-                checkout scm
-                archiveArtifacts 'dist/add2vals'
-                sleep 60
-            }    
+        try{
+            withDockerContainer(args: "--entrypoint=''", image: 'six8/pyinstaller-alpine-linux-amd64:alpine-3.12-python-2.7-pyinstaller-v3.4'){
+                try{
+                    checkout scm
+                    sh 'pyinstaller --onefile sources/add2vals.py'
+                } catch (e) {
+                    throw e
+                } finally {
+                    checkout scm
+                    archiveArtifacts 'dist/add2vals'
+                    sleep 60
+                }    
+            }
+        }catch(e){
+            throw e
+        }finally{
+            sshagent (credentials: ['icaksh']) {
+                sh("git tag -m 'Jenkins'")
+                sh('git push origin ssh')
+            }
         }
     }
 }
