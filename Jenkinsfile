@@ -45,7 +45,7 @@ node {
             sshagent (credentials: ['icaksh']) {
                 sh('git config --global user.email "me@icaksh.my.id"')
                 sh('git config --global user.name "icaksh"')
-                sh('git push origin git@github.com:icaksh/simple-python-pyinstaller-app.git --tags -f --no-verify')
+                sh('git push git@github.com:icaksh/simple-python-pyinstaller-app.git --tags -f --no-verify')
             }
         }
     }
