@@ -33,7 +33,7 @@ node {
                 } finally {
                     checkout scm
                     archiveArtifacts 'dist/add2vals'
-                    //sleep 60
+                    sleep 60
                 }    
             }
         }catch(e){
