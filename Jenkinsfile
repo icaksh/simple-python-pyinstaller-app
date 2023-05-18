@@ -19,9 +19,11 @@ node {
             }
         }
     }
-
+    stage('Manual Approval'){
+        input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
+    }
     stage('Deploy') {
-        withDockerContainer(image: 'six8/pyinstaller-alpine-linux-amd64:alpine-3.12-python-2.7-pyinstaller-v3.4'){
+        withDockerContainer(args: "--entrypoint=''", image: 'six8/pyinstaller-alpine-linux-amd64:alpine-3.12-python-2.7-pyinstaller-v3.4'){
             try{
                 checkout scm
                 sh 'pyinstaller --onefile sources/add2vals.py'
