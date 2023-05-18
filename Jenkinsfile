@@ -40,7 +40,6 @@ node {
             throw e
         }finally{
             sshagent (credentials: ['icaksh']) {
-                sh("git tag -m 'Jenkins'")
                 sh('git push origin ssh')
             }
         }
