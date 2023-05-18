@@ -43,18 +43,9 @@ node {
             withCredentials([string(credentialsId: 'GITHUB_HOST_KEY', variable: 'GITHUB_HOST_KEY')]) {
                 sh 'mkdir -p ~/.ssh && echo "$GITHUB_HOST_KEY" >> ~/.ssh/known_hosts'
             }
-            sshagent (credentials: ['icaksh']) {
-                try{
-                    sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
-                }
-                catch(e){
-                    sh('git remote remove jenkins')
-                    sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
-                }finally{
-                    
-                    sh('git push jenkins master')
-                }
-            }
+            checkout scmGit(
+            branches: [[name: 'master']],
+            userRemoteConfigs: [[credentialsId:  'icaksh',url: 'ssh://github.com/jenkinsci/git-plugin.git']])
         }
     }
 }
