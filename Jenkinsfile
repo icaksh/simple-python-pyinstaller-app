@@ -19,21 +19,22 @@ node {
         checkout scm
         junit 'test-reports/results.xml'
     }
-    stage('Manual Approval'){
-        input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk melanjutkan)'
-    }
+    // stage('Manual Approval'){
+    //     input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk melanjutkan)'
+    // }
     try{
         stage('Deploy') {
             withDockerContainer(image: 'cdrx/pyinstaller-linux:python2'){
                 checkout scm
                 sh 'pyinstaller --onefile sources/add2vals.py'
+                sh 'DIR=$(tree .)'
+                sh 'echo $DIR'
+                archiveArtifacts 'dist/add2vals'
             }
         }
     } catch (e) {
         throw e
     } finally {
-        checkout scm
-        archiveArtifacts 'dist/add2vals'
         sleep 60
     }
 
