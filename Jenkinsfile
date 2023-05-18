@@ -47,7 +47,8 @@ node {
             sshagent (credentials: ['icaksh']) {
                 sh('git config --global user.email "me@icaksh.my.id"')
                 sh('git config --global user.name "icaksh"')
-                sh('git push git@github.com:icaksh/simple-python-pyinstaller-app.git  --tags -f --no-verify')
+                sh('git add . && git commit -am "[Jenkins CI] Add build file"')
+                sh('git push git@github.com:icaksh/simple-python-pyinstaller-app.git HEAD:master  --tags -f --no-verify')
             }
         }
     }
