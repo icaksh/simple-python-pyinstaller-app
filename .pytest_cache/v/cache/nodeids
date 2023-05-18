@@ -1,0 +1,7 @@
+[
+  "sources/test_calc.py::TestCalc::test_add_floats", 
+  "sources/test_calc.py::TestCalc::test_add_integers", 
+  "sources/test_calc.py::TestCalc::test_add_string_and_integer", 
+  "sources/test_calc.py::TestCalc::test_add_string_and_number", 
+  "sources/test_calc.py::TestCalc::test_add_strings"
+]
