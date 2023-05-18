@@ -21,7 +21,7 @@ node {
     }
 
     stage('Deploy') {
-        withDockerContainer(args: "-v $PWD/sources:/sources --entrypoint=''", image: 'cdrx/pyinstaller-linux:python2'){
+        withDockerContainer(args: '-v "$(pwd):/src/"', image: 'engineervix/pyinstaller-linux:python2'){
             try{
                 checkout scm
                 sh 'pyinstaller --onefile sources/add2vals.py'
