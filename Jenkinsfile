@@ -39,6 +39,7 @@ node {
         }catch(e){
             throw e
         }finally{
+            sh('git checkout master')
             sshagent (credentials: ['icaksh']) {
                 try{
                     sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
