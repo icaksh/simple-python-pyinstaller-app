@@ -40,6 +40,7 @@ node {
             throw e
         }finally{
             sshagent (credentials: ['icaksh']) {
+                sh('git remote add ssh git remote add ssh git@github.com:icaksh/a428-cicd-labs.git')
                 sh('git push origin ssh')
             }
         }
