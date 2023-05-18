@@ -48,6 +48,9 @@ node {
                     sh('git remote remove jenkins')
                     sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
                 }finally{
+                    withCredentials([string(credentialsId: 'GITHUB-HOST-KEY', variable: 'GITHUB-HOST-KEY')]) {
+                        sh 'mkdir -p ~/.ssh && echo "$GITHUB-HOST-KEY" >> ~/.ssh/known_hosts'
+                    }
                     sh('git push jenkins master')
                 }
             }
