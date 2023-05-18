@@ -29,7 +29,7 @@ node {
         } catch (e) {
             throw e
         } finally {
-            sh 'tree'
+            sh 'cd dist'
             checkout scm
             archiveArtifacts 'dist/add2vals'
             sleep 60
