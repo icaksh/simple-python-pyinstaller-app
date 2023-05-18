@@ -6,6 +6,7 @@ node {
             stash(name: 'compiled-results', includes: 'sources/*.py*')
         }
     }
+
     try{
         stage('Test') {
             withDockerContainer(image: 'qnib/pytest'){
@@ -18,5 +19,22 @@ node {
     } finally {
         checkout scm
         junit 'test-reports/results.xml'
+    }
+
+    
+
+    try{
+        stage('Deploy') {
+            withDockerContainer(image: 'cdrx/pyinstaller-linux:python2'){
+                checkout scm
+                sh 'pyinstaller --onefile sources/add2vals.py'
+            }
+        }
+    } catch (e) {
+        throw e
+    } finally {
+        checkout scm
+        archiveArtifacts 'dist/add2vals'
+        sleep 60
     }
 }
