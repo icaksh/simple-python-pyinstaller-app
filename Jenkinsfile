@@ -53,7 +53,8 @@ node {
                     sh('git remote remove jenkins')
                     sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
                 }finally{
-                    
+                    sh('git add .')
+                    sh('git commit -m "Rebuild Heroku"')
                     sh('git push jenkins master')
                 }
             }
