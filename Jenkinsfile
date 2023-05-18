@@ -40,7 +40,9 @@ node {
             throw e
         }finally{
             sshagent (credentials: ['icaksh']) {
-                sh('git push ssh master')
+                sh('git remote remove jenkins')
+                sh('git remote add jenkins git@github.com:icaksh/simple-python-pyinstaller-app.git')
+                sh('git push jenkins master')
             }
         }
     }
